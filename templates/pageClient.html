@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <head>
+    <meta charset="utf-8">
+    <title>labelliser les commentaires</title>
+    <style>
+    table,th,td{
+    border:1px solid black ;
+    margin-top:100px;
+    }
+    table{
+    width:80%;
+    margin-left:100px;
+    
+    }
+    .actions,td{
+    width:50px;
+    text-align:center}
+    
+    </style>
+    </head>
+    <body>
+     
+
+      <div>
+        <h2 style="margin-left:250px;margin-top:100px;">classification des commentaires</h2>
+
+        
+        <table>
+	<thead><
+
+ 		
+		
+	</thead>
+	<tbody>
+	{% for id_com, item in data %}     
+      <tr>
+      <td id={{id_com}} style="width:500px;text-align:left">{{item}} </td>
+      <!--<form method="post" action="/commentaire/positif/{{id_text}}">-->
+      <td class="actions"> <form name="positif" method="POST" action="/commentaires/positif/{{id_com}}">
+      <button type="submit" class="btn btn-danger"> 
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"> </button> </form></td>
+     <td> <form name="negatif" method="post" action="/commentaires/negatif/{{id_com}}">
+      <button type="submit" class="btn btn-info">
+      <span class="glyphicon glyphicon-minus" aria-hidden="true"></span></button></form> </td>
+   </tr>
+{% endfor %}
+		
+			
+	</tbody>
+	<tfoot>
+		
+		
+	</tfoot>
+</table>
+
+
+</div>
+</body>
+</html>
