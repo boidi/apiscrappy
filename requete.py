@@ -4,8 +4,8 @@ Created on %(date)s
 
 @author: %(Boidi)s
 """
-print('reqSQL')
 from cnxdb import connection_bd
+
 def data_lab():
     cnx = connection_bd()
     cursor = cnx.cursor()
@@ -17,8 +17,8 @@ def data_lab():
     cursor.close()
     cnx.close()
     return data
-#print(data)
 
+	
 def reqcommentaires():
     cnx =  connection_bd()                        
     cursor = cnx.cursor()
@@ -30,6 +30,7 @@ def reqcommentaires():
     cnx.close()
     return data
 
+	
 def modif_lbel(lab,idC):
     cnx = connection_bd()
     cursor = cnx.cursor()
@@ -39,11 +40,14 @@ def modif_lbel(lab,idC):
     cursor.close()
     cnx.close()
 
+	
 def recente_date():
     cnx = connection_bd()
     cursor = cnx.cursor()
-    update_query = 'SELECT max(comment_date) FROM users_comments;'
-    cursor.execute(update_query, (idC,lab))
+    date_query = 'SELECT max(comment_date) FROM users_comments;'
+    cursor.execute(date_query)
+	data = cursor.fetchall()
     cnx.commit() 
     cursor.close()
     cnx.close()
+	return data
