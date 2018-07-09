@@ -22,7 +22,7 @@ def data_lab():
 def reqcommentaires():
     cnx =  connection_bd()                        
     cursor = cnx.cursor()
-    query_string = "SELECT comment_id,contenu FROM users_comments where comment_label is NULL;"
+    query_string = "SELECT comment_id, contenu FROM users_comments where comment_label is NULL;"
     cursor.execute(query_string)
     data = cursor.fetchall()
     cnx.commit() 
@@ -32,10 +32,18 @@ def reqcommentaires():
 
 def modif_lbel(lab,idC):
     cnx = connection_bd()
-    cursor=cnx.cursor()
-    update_query='UPDATE users_comments SET comment_label = %s where comment_id = %s;'
+    cursor = cnx.cursor()
+    update_query = 'UPDATE users_comments SET comment_label = %s where comment_id = %s;'
     cursor.execute(update_query, (idC,lab))
     cnx.commit() 
     cursor.close()
     cnx.close()
-    
+
+def recente_date():
+    cnx = connection_bd()
+    cursor = cnx.cursor()
+    update_query = 'SELECT max(comment_date) FROM users_comments;'
+    cursor.execute(update_query, (idC,lab))
+    cnx.commit() 
+    cursor.close()
+    cnx.close()

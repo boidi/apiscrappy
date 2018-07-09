@@ -14,11 +14,6 @@ from requete import *
 
 #import mysql.connector 
 
-    
-
-# =============================================================================
-
-
 
 # =============================================================================
 app = Flask(__name__)
@@ -30,6 +25,12 @@ def select_comment():
 
     
 # =============================================================================
+@app.route('/commentaires/update', methods=['GET'])
+def UpdateCommentaire():
+    #recuperation_commentaire()
+    return redirect('/commentaire')
+
+
 # =============================================================================
 @app.route('/commentaires/positif/<id_com>', methods=['POST'])
 def update_labpositif(id_com):
@@ -44,6 +45,8 @@ def update_labnegatif(id_com):
     if request.method =='POST': #and request.form == ['positif']:
         modif_lbel(id_com, 0)
         return redirect('/commentaires')
+
+		
 # =============================================================================
 @app.route('/label',methods=['GET'])
 def selectdata_lab():
