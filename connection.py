@@ -36,16 +36,12 @@ for data in soup_getter.findAll('div', {'class': "consumer-info__details"}):
     authors.append(data.find('h3',{'class':'consumer-info__details__name'}).text.replace('\n','').replace('\'','').strip(' '))
 
 tab_comment=pd.DataFrame({'author' : authors, 'content' : comments, 'date':dates})
-tab_comment['dates']= pd.to_datetime(tab_comment['date']).dt.date
-# =============================================================================
-# print('unicode',tab_comment['content'].iloc[2])
-# =============================================================================
-#tab_comment
+tab_comment['date']= pd.to_datetime(tab_comment['date']).dt.date
+
+#print(tab_comment)
 
 #%%
 from cnxdb import connection_bd
-#import mysql.connector 
-#conn = mysql.connector.connect(host="localhost",user="root",password="pascaline", database="my_app")
 conn = connection_bd()
 #
 #%%
@@ -54,29 +50,25 @@ def ajout_data(series):
     cursor = conn.cursor()
 
     for i in range(len(series)):
-        query = "SELECT idusers FROM users WHERE user_pseudo ='"
-        query += " " + series.loc[i,'author'] + "';"
-        print(query)
-        cursor.execute(query)
+        req = "SELECT idusers FROM users_data WHERE user_pseudo = (%s);"
+        #print(series.loc[i,'author'])
+        cursor.execute(req, [series.loc[i,'author']])
         res = cursor.fetchall()
-        print(res)
+        print("RES", res) 
         if len(res) != 1:
-            add_utilisateur = "INSERT INTO users (user_pseudo) VALUES ('"+ series.loc[i,'author'] +"');"
-            print(add_utilisateur)
-            cursor.execute(add_utilisateur) 
+            add_utilisateur = "INSERT INTO users_data (user_pseudo) VALUES (%s);"
+            #print(add_utilisateur)
+            cursor.execute(add_utilisateur, [str(series.loc[i,'author'])]) 
             user_no = cursor.lastrowid
+            print("INSERT USERDATA", user_no)
         else:
             user_no = cursor
-      
-        #format_date = dt.datetime.strptime(str(series.loc[i,'date']), '%d/%m/%Y').strftime('%y-%m-%d')
-        add_commentaire = 'INSERT INTO users_comments (contenu, user_id, comment_date) VALUES( "'+series.loc[i,'content']+'", '+str(user_no)+', "'+str(series.loc[i,'dates'])+'");'
-    #add_commentaire = 'INSERT INTO users_comments (contenu, user_id, comment_date) VALUES ( "'+str(series.loc[i,'content'])+'", '+str(user_no)+', "'+str(format_date)+'");'
-
+            print("ELSE", user_no)
+        add_commentaire = "INSERT INTO users_comments (contenu, user_id, comment_date) VALUES( %s, %s, %s);"
         print(add_commentaire)
-        cursor.execute(add_commentaire) 
+        cursor.execute(add_commentaire, [str(series.loc[i,'content']) , str(user_no) , str(series.loc[i,'date'])])
         conn.commit() 
-    # Make sure data is committed to the database
-
+    
     cursor.close()
     conn.close() 
 ajout_data(tab_comment)
