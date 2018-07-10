@@ -9,7 +9,7 @@ from cnxdb import connection_bd
 def data_lab():
     cnx = connection_bd()
     cursor = cnx.cursor()
-    query = "SELECT comment_id,contenu ,comment_label FROM users_comments where comment_label is  NOT NULL;"
+    query = "SELECT comment_id,contenu, comment_label FROM users_comments where comment_label is  NOT NULL;"
     cursor.execute(query)
     data = cursor.fetchall()
     cnx.commit()
@@ -35,7 +35,7 @@ def modif_lbel(lab,idC):
     cnx = connection_bd()
     cursor = cnx.cursor()
     update_query = 'UPDATE users_comments SET comment_label = %s where comment_id = %s;'
-    cursor.execute(update_query, (idC,lab))
+    cursor.execute(update_query, (idC,  lab))
     cnx.commit() 
     cursor.close()
     cnx.close()
