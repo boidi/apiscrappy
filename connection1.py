@@ -52,30 +52,29 @@ def ajout_data(series):
 
     for i in range(len(series)):
         
-        #req = "SELECT idusers FROM users_data WHERE user_pseudo = %s;"
-        res = select_data(series.loc[i,'author'])
-        #print(series.loc[i,'author'])
-        #cursor.execute(req, [series.loc[i,'author']])
-        #res = cursor.fetchall()
-        print("RES", type(res), res) 
-        print(len(res))
+        req = "SELECT idusers FROM users_data WHERE user_pseudo = %s;"
+        #user_no = select_data(str(series.loc[i,'author']))
+
+        cursor.execute(req, [series.loc[i,'author']])
+        res = cursor.fetchall()
+        print("RES", res) 
 # =============================================================================
 # =============================================================================
         if len(res) != 1:
-            #add_utilisateur = "INSERT INTO users_data (user_pseudo) VALUES (%s);"
-            #print(add_utilisateur)
-            #cursor.execute(add_utilisateur, [str(series.loc[i,'author'])]) 
-            user_no = insert_user(str(series.loc[i,'author']))
+            add_utilisateur = "INSERT INTO users_data (user_pseudo) VALUES (%s);"
+            print(add_utilisateur)
+            cursor.execute(add_utilisateur, [str(series.loc[i,'author'])]) 
+            #user_no = insert_user(str(series.loc[i,'author']))
             #print("INSERT USERDATA", user_no)
-            #user_no = cursor.lastrowid
         else:
-            user_no = res[0][0]
-            print("ELSE", user_no)
-        insert_comment(str(series.loc[i,'content']), str(user_no), str(series.loc[i,'date'])) 
-        #add_commentaire = "INSERT INTO users_comments (contenu, user_id, comment_date) VALUES( %s, %s, %s);"
-        #print(add_commentaire)
-        #cursor.execute(add_commentaire, [str(series.loc[i,'content']) , str(user_no) , str(series.loc[i,'date'])])
-        #conn.commit() 
+            
+            user_no = cursor
+           # print("ELSE", user_no)
+            #insert_comment(str(series.loc[i,'content']), str(user_no), str(series.loc[i,'dates'])) 
+            add_commentaire = "INSERT INTO users_comments (contenu, user_id, comment_date) VALUES( %s, %s, %s);"
+            print(add_commentaire)
+            cursor.execute(add_commentaire, [str(series.loc[i,'content']) , str(user_no) , str(series.loc[i,'date'])])
+            conn.commit() 
           
 # =============================================================================
     
