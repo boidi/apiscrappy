@@ -13,7 +13,7 @@ from mysql.connector import errorcode
 def connection_bd():
     try:
         cnx = mysql.connector.connect(user='root',
-                                      password= 'pascaline',
+                                      password= 'root',
                                       host= '127.0.0.1',
                                       database='my_app')
     except mysql.connector.Error as err:
